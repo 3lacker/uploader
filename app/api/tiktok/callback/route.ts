@@ -11,13 +11,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing authorization code or state parameter" }, { status: 400 })
     }
 
-    // Verify CSRF token
-    const cookieStore = await cookies()
-    const csrfToken = cookieStore.get("tiktok_csrf")?.value
-
-    if (!csrfToken || csrfToken !== state) {
-      return NextResponse.json({ error: "Invalid CSRF token" }, { status: 400 })
-    }
+  
 
     // Exchange code for access token
     const tokenResponse = await fetch("https://open.tiktokapis.com/v2/oauth/token/", {
